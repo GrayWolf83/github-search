@@ -8,12 +8,16 @@ a {
 	text-decoration: none;
 }
 
+p {
+	margin-bottom: 5px;
+}
+
 .ff-pattaya {
 	font-family: 'Pattaya', sans-serif;
 }
 
-.btn-check:focus+.btn-outline-dark, 
-.btn-outline-dark:focus, 
+.btn-check:focus + .btn-outline-dark,
+.btn-outline-dark:focus,
 .form-control:focus {
 	box-shadow: none;
 	border-color: #212529;
