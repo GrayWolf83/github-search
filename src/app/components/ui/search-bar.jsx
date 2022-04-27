@@ -13,6 +13,12 @@ const SearchBar = () => {
 		}
 	}
 
+	const keyDownHandler = (e) => {
+		if (e.key === 'Enter') {
+			handleClick()
+		}
+	}
+
 	const handleChange = (e) => {
 		setSearch(e.target.value)
 	}
@@ -27,13 +33,14 @@ const SearchBar = () => {
 				aria-describedby='button-addon2'
 				onChange={handleChange}
 				value={search}
+				onKeyDown={keyDownHandler}
 			/>
 			<button
 				className='btn btn-outline-dark'
 				type='button'
 				onClick={handleClick}
 				id='button-addon2'>
-				Button
+				Найти
 			</button>
 		</div>
 	)
