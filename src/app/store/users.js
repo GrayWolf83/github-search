@@ -67,8 +67,8 @@ export const searchUsers = (search, page) => async (dispatch) => {
 
 export const loadCurrentUser = (login) => async (dispatch) => {
 	try {
-		const { items } = await userService.getUser(login)
-		dispatch(loadCurrentUserReceived(items))
+		const content = await userService.getUser(login)
+		dispatch(loadCurrentUserReceived(content))
 	} catch (error) {
 		dispatch(loadRequestFailed(error.message))
 	}
