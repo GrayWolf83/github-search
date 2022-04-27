@@ -1,11 +1,16 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getUsers, getUsersLoadingStatus, searchUsers } from '../store/users'
+import Loader from '../components/common/loader'
+import {
+	getUsersDataLoadedStatus,
+	getUsersList,
+	searchUsers,
+} from '../store/users'
 
 const UsersLoader = ({ children }) => {
 	const dispatch = useDispatch()
-	const isLoading = useSelector(getUsersLoadingStatus())
-	const users = useSelector(getUsers())
+	const dataLoaded = useSelector(getUsersDataLoadedStatus())
+	const users = useSelector(getUsersList())
 
 	useEffect(() => {
 		if (!users) {
@@ -13,7 +18,7 @@ const UsersLoader = ({ children }) => {
 		}
 	}, [users, dispatch])
 
-	return isLoading ? 'Loading' : children
+	return !dataLoaded ? <Loader /> : children
 }
 
 export default UsersLoader

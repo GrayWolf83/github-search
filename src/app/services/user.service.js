@@ -7,8 +7,9 @@ const userService = {
 	},
 	searchUsers: async (search, page) => {
 		const { data } = await httpService.get(
-			`search/users?q=${search}&per_page=10&page=${page}`,
+			`search/users?q=${search}&per_page=8&page=${page}`,
 		)
+
 		return data
 	},
 }

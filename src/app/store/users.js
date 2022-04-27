@@ -8,13 +8,21 @@ const usersSlice = createSlice({
 		currentUser: null,
 		isLoading: true,
 		error: null,
+		dataLoaded: false,
+		page: 1,
+		search: 'a',
+		usersCount: 0,
 	},
 	reducers: {
 		loadRequested: (state) => {
 			state.isLoading = true
 		},
 		loadUsersReceived: (state, action) => {
-			state.entities = action.payload
+			state.entities = action.payload.entities
+			state.dataLoaded = true
+			state.page = action.payload.page
+			state.search = action.payload.search
+			state.usersCount = action.payload.usersCount
 			state.isLoading = false
 		},
 		loadCurrentUserReceived: (state, action) => {
@@ -43,8 +51,15 @@ const {
 export const searchUsers = (search, page) => async (dispatch) => {
 	dispatch(loadRequested())
 	try {
-		const { items } = await userService.searchUsers(search, page)
-		dispatch(loadUsersReceived(items))
+		const data = await userService.searchUsers(search, page)
+		dispatch(
+			loadUsersReceived({
+				entities: data.items,
+				usersCount: data.total_count,
+				search,
+				page,
+			}),
+		)
 	} catch (error) {
 		dispatch(loadRequestFailed(error.message))
 	}
@@ -59,14 +74,18 @@ export const loadCurrentUser = (login) => async (dispatch) => {
 	}
 }
 
-export const getUsers = () => (state) => {
+export const getUsersList = () => (state) => {
 	return state.users.entities
 }
 export const getCurrentUser = () => (state) => {
 	return state.users.currentUser
 }
-export const clearError = () => (dispatch) => dispatch(errorCleared())
+export const clearUsersError = () => (dispatch) => dispatch(errorCleared())
 export const getUsersLoadingStatus = () => (state) => state.users.isLoading
-export const getErrors = () => (state) => state.users.error
+export const getUsersDataLoadedStatus = () => (state) => state.users.dataLoaded
+export const getUsersErrors = () => (state) => state.users.error
+export const getPage = () => (state) => state.users.page
+export const getUsersCount = () => (state) => state.users.usersCount
+export const getUsersSearchValue = () => (state) => state.users.search
 
 export default usersReducer

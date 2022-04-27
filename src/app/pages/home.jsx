@@ -1,13 +1,16 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
-import { getUsers } from '../store/users'
+import Pagination from '../components/common/pagination'
+import SearchBar from '../components/ui/search-bar'
+import UsersList from '../components/ui/users-list'
 
 const Home = () => {
-	const users = useSelector(getUsers())
-
-	console.log('users', users)
-
-	return <h1>Home</h1>
+	return (
+		<>
+			<SearchBar />
+			<UsersList />
+			<Pagination />
+		</>
+	)
 }
 
 export default Home

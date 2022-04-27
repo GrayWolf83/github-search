@@ -4,6 +4,17 @@
 	font-family: 'Montserrat Alternates', sans-serif;
 }
 
+a {
+	text-decoration: none;
+}
+
 .ff-pattaya {
 	font-family: 'Pattaya', sans-serif;
+}
+
+.btn-check:focus+.btn-outline-dark, 
+.btn-outline-dark:focus, 
+.form-control:focus {
+	box-shadow: none;
+	border-color: #212529;
 }
