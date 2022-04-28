@@ -1,26 +1,18 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import {
-	getPage,
-	getUsersCount,
-	getUsersSearchValue,
-	searchUsers,
-} from '../../store/users'
+import { useDispatch } from 'react-redux'
 
-const Pagination = () => {
+const Pagination = ({ page, count, value, cb, perPage }) => {
 	const dispatch = useDispatch()
-	const page = useSelector(getPage())
-	const usersCount = useSelector(getUsersCount())
-	const search = useSelector(getUsersSearchValue())
-
-	const pagesCount = usersCount >= 1000 ? 125 : Math.ceil(usersCount / 8)
+	const pagesCount = Math.ceil(
+		count >= 1000 ? 1000 / perPage : count / perPage,
+	)
 
 	const handleClick = (direction) => {
 		if (direction === 'right') {
-			dispatch(searchUsers(search, page + 1))
+			dispatch(cb(value, page + 1))
 		}
 		if (direction === 'left') {
-			dispatch(searchUsers(search, page - 1))
+			dispatch(cb(value, page - 1))
 		}
 	}
 

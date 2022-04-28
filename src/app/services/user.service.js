@@ -12,6 +12,12 @@ const userService = {
 
 		return data
 	},
+	getRepos: async (login, page) => {
+		const { data } = await httpService.get(
+			`users/${login}/repos?per_page=4&page=${page}`,
+		)
+		return data
+	},
 }
 
 export default userService

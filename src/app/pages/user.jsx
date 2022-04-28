@@ -3,7 +3,13 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import BackButton from '../components/common/back-button'
-import { getCurrentUser, loadCurrentUser } from '../store/users'
+import ReposList from '../components/ui/repos-list'
+import {
+	getCurrentUser,
+	getCurrentUserRepos,
+	loadCurrentUser,
+	loadCurrentUserRepos,
+} from '../store/users'
 
 const User = () => {
 	const { login } = useParams()
@@ -12,19 +18,19 @@ const User = () => {
 	useEffect(() => {
 		if (login) {
 			dispatch(loadCurrentUser(login))
+			dispatch(loadCurrentUserRepos(login, 1))
 		}
-	}, [])
+	}, [login, dispatch])
 
 	const user = useSelector(getCurrentUser())
-
-	console.log('user', user)
+	const repos = useSelector(getCurrentUserRepos())
 
 	return (
 		<>
 			<BackButton />
 			{user && (
 				<div className='row mt-2'>
-					<div className='col-md-4'>
+					<div className='col-md-4 col-lg-3'>
 						<img
 							src={user.avatar_url}
 							width={200}
@@ -55,7 +61,9 @@ const User = () => {
 							</a>
 						</p>
 					</div>
-					<div className='col-md-8 col-lg-9'></div>
+					<div className='col-md-8 col-lg-9'>
+						<ReposList repos={repos} />
+					</div>
 				</div>
 			)}
 		</>
