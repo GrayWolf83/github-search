@@ -6,10 +6,12 @@ const usersSlice = createSlice({
 	initialState: {
 		entities: null,
 		currentUser: null,
+		currentUserRepos: null,
 		isLoading: true,
 		error: null,
 		dataLoaded: false,
 		page: 1,
+		reposPage: 1,
 		search: 'a',
 		usersCount: 0,
 	},
@@ -29,6 +31,11 @@ const usersSlice = createSlice({
 			state.currentUser = action.payload
 			state.isLoading = false
 		},
+		loadCurrentUserReposReceived: (state, action) => {
+			state.currentUserRepos = action.payload.entities
+			state.reposPage = action.payload.page
+			state.isLoading = false
+		},
 		loadRequestFailed: (state, action) => {
 			state.error = action.payload
 			state.isLoading = false
@@ -46,6 +53,7 @@ const {
 	loadCurrentUserReceived,
 	loadRequestFailed,
 	errorCleared,
+	loadCurrentUserReposReceived,
 } = actions
 
 export const searchUsers = (search, page) => async (dispatch) => {
@@ -74,11 +82,32 @@ export const loadCurrentUser = (login) => async (dispatch) => {
 	}
 }
 
+export const loadCurrentUserRepos = (login, page) => async (dispatch) => {
+	dispatch(loadRequested())
+	try {
+		const data = await userService.getRepos(login, page)
+		dispatch(
+			loadCurrentUserReposReceived({
+				entities: data,
+				page,
+			}),
+		)
+	} catch (error) {
+		dispatch(loadRequestFailed(error.message))
+	}
+}
+
 export const getUsersList = () => (state) => {
 	return state.users.entities
 }
 export const getCurrentUser = () => (state) => {
 	return state.users.currentUser
+}
+export const getCurrentUserRepos = () => (state) => {
+	return state.users.currentUserRepos
+}
+export const getReposPage = () => (state) => {
+	return state.users.reposPage
 }
 export const clearUsersError = () => (dispatch) => dispatch(errorCleared())
 export const getUsersLoadingStatus = () => (state) => state.users.isLoading
