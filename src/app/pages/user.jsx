@@ -20,7 +20,7 @@ const User = () => {
 			dispatch(loadCurrentUser(login))
 			dispatch(loadCurrentUserRepos(login, 1))
 		}
-	}, [login, dispatch])
+	}, [login])
 
 	const user = useSelector(getCurrentUser())
 	const repos = useSelector(getCurrentUserRepos())
@@ -62,7 +62,11 @@ const User = () => {
 						</p>
 					</div>
 					<div className='col-md-8 col-lg-9'>
-						<ReposList repos={repos} />
+						<ReposList
+							repos={repos}
+							count={user.public_repos}
+							login={user.login}
+						/>
 					</div>
 				</div>
 			)}

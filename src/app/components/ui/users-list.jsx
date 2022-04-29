@@ -7,7 +7,6 @@ import {
 	getUsersSearchValue,
 	searchUsers,
 } from '../../store/users'
-import Loader from '../common/loader'
 import Pagination from '../common/pagination'
 import UsersListItem from './users-list-item'
 
@@ -19,7 +18,7 @@ const UsersList = () => {
 
 	return (
 		<div className='row'>
-			{users ? (
+			{users?.length ? (
 				<>
 					{users.map((user) => (
 						<div
@@ -29,6 +28,7 @@ const UsersList = () => {
 						</div>
 					))}
 					<Pagination
+						items={users}
 						page={page}
 						count={usersCount}
 						value={search}
@@ -37,7 +37,9 @@ const UsersList = () => {
 					/>
 				</>
 			) : (
-				<Loader />
+				<p className='text-center'>
+					По Вашему запросу ничего не найдено
+				</p>
 			)}
 		</div>
 	)

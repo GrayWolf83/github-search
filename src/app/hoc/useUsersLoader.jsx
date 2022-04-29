@@ -1,22 +1,17 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../components/common/loader'
-import {
-	getUsersDataLoadedStatus,
-	getUsersList,
-	searchUsers,
-} from '../store/users'
+import { getUsersDataLoadedStatus, searchUsers } from '../store/users'
 
 const UsersLoader = ({ children }) => {
 	const dispatch = useDispatch()
 	const dataLoaded = useSelector(getUsersDataLoadedStatus())
-	const users = useSelector(getUsersList())
 
 	useEffect(() => {
-		if (!users) {
+		if (!dataLoaded) {
 			dispatch(searchUsers('a', 1))
 		}
-	}, [users, dispatch])
+	}, [dataLoaded])
 
 	return !dataLoaded ? <Loader /> : children
 }

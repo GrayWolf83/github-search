@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 
-const Pagination = ({ page, count, value, cb, perPage }) => {
+const Pagination = ({ items, page, count, value, cb, perPage }) => {
 	const dispatch = useDispatch()
 	const pagesCount = Math.ceil(
 		count >= 1000 ? 1000 / perPage : count / perPage,
@@ -16,7 +16,7 @@ const Pagination = ({ page, count, value, cb, perPage }) => {
 		}
 	}
 
-	return (
+	return items?.length ? (
 		<div className='w-100 my-2 d-flex justify-content-center'>
 			<button
 				className='btn btn-dark shadow py-1 me-3'
@@ -36,7 +36,7 @@ const Pagination = ({ page, count, value, cb, perPage }) => {
 				{'>>'}
 			</button>
 		</div>
-	)
+	) : null
 }
 
 export default Pagination
